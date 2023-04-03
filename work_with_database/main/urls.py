@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+# from phones.views import csv_c
 
 import phones.views
 
@@ -23,4 +24,5 @@ urlpatterns = [
     path('', phones.views.index),
     path('catalog/', phones.views.show_catalog, name='catalog'),
     path('catalog/<slug:slug>/', phones.views.show_product, name='phone'),
+    # path('csv_c/', csv_c)
 ]
