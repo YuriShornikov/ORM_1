@@ -2,6 +2,7 @@ import csv
 
 from django.core.management.base import BaseCommand
 from phones.models import Phone
+from django.utils.text import slugify
 
 
 class Command(BaseCommand):
@@ -21,7 +22,7 @@ class Command(BaseCommand):
                     price=int(phone['price']),
                     release_date=phone['release_date'],
                     lte_exists=phone['lte_exists'],
-                    slug=phone(phone['name'])
+                    slug=slugify(phone['name'])
                 )
 
 
