@@ -5,27 +5,28 @@ from django.http import HttpResponse
 def index(request):
     return redirect('catalog')
 
-def store(request):
-    phones = Phone.objects.all()
-    template = 'catalog.html'
-    # phones = [f'{c.id}, {c.name}, {c.price}, {c.image}, {c.release_date}' for c in phone]
-    # return HttpResponse('<br>'.join(phones))
-    for phone in phones:
-        context = {'phone': phone}
-
-    return render(request, template, context)
-
-
 def show_catalog(request):
-    template = 'catalog.html'
-    phone = Phone.objects.all()
-    context = {'phone': phone}
 
+    template = 'catalog.html'
+
+    if request.GET['sort'] == 'name':
+        phones = Phone.objects.order_by('name')
+    elif request.GET['sort'] == 'min_price':
+        phones = Phone.objects.order_by('price')
+    elif request.GET['sort'] == 'max_price':
+        phones = Phone.objects.order_by('-price')
+    else:
+        phones = Phone.objects.all()
+
+    context = {'phones': phones}
     return render(request, template, context)
 
 
 def show_product(request, slug):
     template = 'product.html'
-    phone = Phone.objects.all()
-    context = {'phone': phone}
-    return render(request, template, context)
+    phones = Phone.objects.all()
+    for phone in phones:
+        if slug == phone.slug:
+            context = {'phone': phone}
+            print(phone)
+            return render(request, template, context)
